@@ -10,6 +10,9 @@
 #include <errno.h>
 #include <string.h>
 #include <string>
+#include <fstream>
+#define BUF (256)
+
 int check(int result){
     if (result >= 0)    
         return result;
@@ -18,6 +21,26 @@ int check(int result){
     perror(strerror(errno));
     exit(-1);
 }
+
+//Функция возвращает время в секундах
+float GetComputerOperatingTime()
+{
+    char buf[BUF] = {'\0'};
+    std::fstream fs("/proc/uptime", std::fstream::in);
+    if(!fs.is_open())
+        return 0;
+    float a = -1,b;
+    if ( !(fs.getline(buf, BUF).eof() )){
+        if (sscanf(buf, "%f %f", &a, &b) != 2)
+        {
+            fs.close();
+            return -1;
+        }
+    }
+    fs.close();
+    return a;
+}
+
 
 int main()
 {
