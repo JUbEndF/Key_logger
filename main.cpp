@@ -41,6 +41,16 @@ float GetComputerOperatingTime()
     return a;
 }
 
+std::string CurrentDateTime()
+{
+    char *output;
+    time_t seconds = time(nullptr);
+    tm* timeinfo = localtime(&seconds);
+    strcpy(output," Date:  ");
+    strcat(output,asctime(timeinfo));
+    return output;
+}
+
 
 int main()
 {
